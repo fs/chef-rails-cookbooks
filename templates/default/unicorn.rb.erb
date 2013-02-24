@@ -1,0 +1,45 @@
+##
+# Unicorn config
+# Managed by Chef - Local Changes will be Nuked from Orbit (just to be sure)
+##
+
+working_directory "<%= @application_current_path %>"
+pid "<%= @unicorn_log %>"
+stderr_path "<%= @unicorn_log %>"
+stdout_path "<%= @unicorn_log %>"
+
+listen "<%= @unicorn_socket %>"
+worker_processes <%= @unicorn_workers %>
+timeout <%= @unicorn_timeout %>
+
+preload_app true
+
+before_fork do |server, worker|
+  # Disconnect since the database connection will not carry over
+  if defined? ActiveRecord::Base
+    ActiveRecord::Base.connection.disconnect!
+  end
+
+  # Quit the old unicorn process
+  old_pid = "#{server.config[:pid]}.oldbin"
+  if File.exists?(old_pid) && server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      # someone else did our job for us
+    end
+  end
+end
+
+after_fork do |server, worker|
+  # Start up the database connection again in the worker
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+  end
+
+  # Reset the memcache-based object store
+  Rails.cache.instance_variable_get(:@data).reset if Rails.cache.instance_variable_get(:@data).respond_to?(:reset)
+
+  # Reset the memcache-based session store
+  ActionController::Base.session_options[:cache].reset if ActionController::Base.session_options[:cache].respond_to?(:reset)
+end

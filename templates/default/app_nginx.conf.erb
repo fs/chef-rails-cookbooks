@@ -1,0 +1,14 @@
+##
+# Nginx config
+# Managed by Chef - Local Changes will be Nuked from Orbit (just to be sure)
+##
+
+upstream <%= @application_full_name %> {
+  server unix:<%= @unicorn_socket %> fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name <%= @application_domain %> _;
+  include /etc/nginx/sites-include/<%= @application_full_name %>.conf;
+}

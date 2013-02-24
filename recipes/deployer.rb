@@ -1,0 +1,12 @@
+deployer_deployer_authorized_keys_data_bag = 'deployer_authorized_keys'
+
+deployer_authorized_keys = data_bag(deployer_deployer_authorized_keys_data_bag).map do |bag|
+  data_bag_item(deployer_deployer_authorized_keys_data_bag, bag)['key']
+end
+
+user_account node.users.deployer.user do
+  shell node.users.deployer.shell
+  ssh_keys deployer_authorized_keys
+
+  action :create
+end
