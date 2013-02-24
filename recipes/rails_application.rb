@@ -47,6 +47,7 @@ if application_name
     :application_root => application_root,
     :application_current_path => application_current_path,
     :application_shared_path => application_shared_path,
+    :unicorn_config => unicorn_config,
     :unicorn_socket => unicorn_socket,
     :unicorn_pid => unicorn_pid,
     :unicorn_log => unicorn_log,
@@ -97,7 +98,7 @@ if application_name
 
   template "/etc/init.d/unicorn_#{application_name}" do
     source 'unicorn_init.erb'
-
+    mode 0755
     variables template_variables
   end
 else
