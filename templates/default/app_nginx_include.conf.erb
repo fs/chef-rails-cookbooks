@@ -23,7 +23,7 @@ location @app {
   proxy_busy_buffers_size 32k;
   proxy_redirect off;
 
-  proxy_pass http://<%= @application_full_name %>;
+  proxy_pass http://<%= @application_name %>;
 }
 
 error_page 500 502 503 504 /500.html;

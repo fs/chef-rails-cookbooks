@@ -6,7 +6,6 @@ if application_name
   application_environment = node.rails.application.environment
   application_domain = node.rails.application.domain
 
-  application_full_name = "#{application_name}_#{node.rails.application.environment}"
   application_root = "#{node.rails.application.root_prefix}/#{application_name}"
   application_current_path = "#{application_root}/current"
   application_shared_path = "#{application_root}/shared"
@@ -41,7 +40,6 @@ if application_name
 
   template_variables = {
     :application_environment => application_environment,
-    :application_full_name => application_full_name,
     :application_name => application_name,
     :application_domain => application_domain,
     :application_root => application_root,
@@ -56,7 +54,7 @@ if application_name
     :unicorn_user => node.users.deployer.user
   }
 
-  template "/etc/nginx/sites-include/#{application_full_name}.conf" do
+  template "/etc/nginx/sites-include/#{application_name}.conf" do
     source 'app_nginx_include.conf.erb'
 
     variables template_variables
@@ -64,7 +62,7 @@ if application_name
     notifies :reload, resources(:service => 'nginx')
   end
 
-  template "/etc/nginx/sites-available/#{application_full_name}.conf" do
+  template "/etc/nginx/sites-available/#{application_name}.conf" do
     source 'app_nginx.conf.erb'
 
     variables template_variables
@@ -72,7 +70,7 @@ if application_name
     notifies :reload, resources(:service => 'nginx')
   end
 
-  nginx_site application_full_name do
+  nginx_site application_name do
     action :enable
   end
 
