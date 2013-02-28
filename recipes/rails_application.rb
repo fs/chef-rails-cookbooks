@@ -15,8 +15,9 @@ if application_name
   unicorn_log = "#{application_shared_path}/log/unicorn.log"
   unicorn_config = "#{application_shared_path}/config/unicorn.rb"
 
+  database_yml_config = "#{application_shared_path}/config/database.yml"
+
   # Create application folders
-  # Need for nginx logs
   #
   directory application_root do
     owner node.users.deployer.user
@@ -31,24 +32,26 @@ if application_name
     end
   end
 
-  # TODO: add logrotate
   # Setup nginx
   #
-
   template_variables = {
-    :application_environment => application_environment,
-    :application_name => application_name,
-    :application_domain => application_domain,
-    :application_root => application_root,
-    :application_current_path => application_current_path,
-    :application_shared_path => application_shared_path,
-    :unicorn_config => unicorn_config,
-    :unicorn_socket => unicorn_socket,
-    :unicorn_pid => unicorn_pid,
-    :unicorn_log => unicorn_log,
-    :unicorn_workers => node.rails.application.unicorn.workers,
-    :unicorn_timeout => node.rails.application.unicorn.timeout,
-    :unicorn_user => node.users.deployer.user
+    application_environment: application_environment,
+    application_name: application_name,
+    application_domain: application_domain,
+    application_root: application_root,
+    application_current_path: application_current_path,
+    application_shared_path: application_shared_path,
+    unicorn_config: unicorn_config,
+    unicorn_socket: unicorn_socket,
+    unicorn_pid: unicorn_pid,
+    unicorn_log: unicorn_log,
+    unicorn_workers: node.rails.application.unicorn.workers,
+    unicorn_timeout: node.rails.application.unicorn.timeout,
+    unicorn_user: node.users.deployer.user,
+    database_yml_config: database_yml_config,
+    database_name: node.rails.application.db.name,
+    database_username: node.rails.application.db.username,
+    database_password: node.rails.application.db.password,
   }
 
   template "/etc/nginx/sites-include/#{application_name}.conf" do
@@ -56,7 +59,7 @@ if application_name
 
     variables template_variables
 
-    notifies :reload, resources(:service => 'nginx')
+    notifies :reload, resources(service: 'nginx')
   end
 
   template "/etc/nginx/sites-available/#{application_name}.conf" do
@@ -64,7 +67,7 @@ if application_name
 
     variables template_variables
 
-    notifies :reload, resources(:service => 'nginx')
+    notifies :reload, resources(service: 'nginx')
   end
 
   nginx_site application_name do
@@ -96,6 +99,44 @@ if application_name
     mode 0755
     variables template_variables
   end
+
+
+  # Setup database
+  #
+  template database_yml_config do
+    source "database.yml.postgres.erb"
+
+    variables template_variables
+
+    owner node.users.deployer.user
+    group node.users.deployer.user
+  end
+
+  postgresql_connection_info = {
+    host: node.postgresql.config.listen_addresses,
+    port: node.postgresql.config.port,
+    username: 'postgres',
+    password: node.postgresql.password.postgres
+  }
+
+  postgresql_database(node.rails.application.db.name) do
+    connection postgresql_connection_info
+    action :create
+  end
+
+  postgresql_database_user(node.rails.application.db.username) do
+    connection postgresql_connection_info
+    password node.rails.application.db.password
+    action :create
+  end
+
+  postgresql_database_user(node.rails.application.db.username) do
+    connection postgresql_connection_info
+    database_name node.rails.application.db.name
+    privileges [:all]
+    action :grant
+  end
+
 else
   Chef::Log.info 'Recipe flatstack::rails_application skipped'
   Chef::Log.info <<-INFO

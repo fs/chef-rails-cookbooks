@@ -4,7 +4,7 @@
 ##
 
 working_directory "<%= @application_current_path %>"
-pid "<%= @unicorn_log %>"
+pid "<%= @unicorn_pid %>"
 stderr_path "<%= @unicorn_log %>"
 stdout_path "<%= @unicorn_log %>"
 
@@ -39,7 +39,4 @@ after_fork do |server, worker|
 
   # Reset the memcache-based object store
   Rails.cache.instance_variable_get(:@data).reset if Rails.cache.instance_variable_get(:@data).respond_to?(:reset)
-
-  # Reset the memcache-based session store
-  ActionController::Base.session_options[:cache].reset if ActionController::Base.session_options[:cache].respond_to?(:reset)
 end

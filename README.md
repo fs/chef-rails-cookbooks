@@ -66,12 +66,16 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 
 ### Attributes
 
+* `node.rails.application.name`: nil
 * `node.rails.application.root_prefix`: /var/www
 * `node.rails.application.domain`: example.com
 * `node.rails.application.environment`: production
 * `node.rails.application.packages`: []
 * `node.rails.application.unicorn.workers`: 2
 * `node.rails.application.unicorn.timeout`: 60
+* `node.rails.application.db.name`: `node.rails.application.name`
+* `node.rails.application.db.username`: `node.rails.application.name`
+* `node.rails.application.db.password`: 'change-me'
 
 ### Recipe
 
@@ -85,7 +89,22 @@ in the `deployer_authorized_keys` data bag, one json file per user:
   * configuration at `/var/www/#{node.rails.application.name}/shared/config/unicorn.rb`
   * init script at `/etc/init.d/unicorn_#{node.rails.application.name}`
 * Installs `node.rails.application.packages` packadges
+* Creates db:
+  * database `node.rails.application.db.name` name
+  * grants access to db to `node.rails.application.db.username` with `node.rails.application.db.password`
+* Creates `/var/www/#{node.rails.application.name}/shared/config/database.yml`
 
 # Develop
 
-Run `script/bootstrap`
+* `script/bootstrap`
+* develop
+* `rake foodcritic`
+
+# TODO
+
+* configure iptables
+* sshd config
+* logentries https://github.com/jagregory/chef-logentries
+* setup logrotate
+* crontab https://github.com/fs/sliceconfig/blob/master/config/etc/crontab
+* motd https://github.com/fs/sliceconfig/blob/master/config/etc/motd

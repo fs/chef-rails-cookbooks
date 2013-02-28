@@ -3,6 +3,9 @@ default.rails.application.domain = 'example.com'
 default.rails.application.environment = 'production'
 default.rails.application.packages = []
 
-default.rails.application.unicorn.version = '4.6.2'
 default.rails.application.unicorn.workers = 2
 default.rails.application.unicorn.timeout = 60
+
+default.rails.application.db.name = node.rails.application.name
+default.rails.application.db.username = node.rails.application.name
+default.rails.application.db.password = 'change-me'
