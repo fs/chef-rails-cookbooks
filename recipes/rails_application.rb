@@ -34,9 +34,6 @@ if application_name
   # TODO: add logrotate
   # Setup nginx
   #
-  directory '/etc/nginx/sites-include' do
-    mode 0755
-  end
 
   template_variables = {
     :application_environment => application_environment,
