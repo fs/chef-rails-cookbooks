@@ -73,6 +73,7 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * `node.rails.application.packages`: []
 * `node.rails.application.unicorn.workers`: 2
 * `node.rails.application.unicorn.timeout`: 60
+* `node.rails.application.db.type`: postgres
 * `node.rails.application.db.name`: `node.rails.application.name`
 * `node.rails.application.db.username`: `node.rails.application.name`
 * `node.rails.application.db.password`: 'change-me'

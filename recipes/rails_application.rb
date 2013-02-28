@@ -101,40 +101,15 @@ if application_name
   end
 
 
-  # Setup database
+  # Setup database yaml
   #
   template database_yml_config do
-    source "database.yml.postgres.erb"
+    source "database.yml.#{node.rails.application.db.type}.erb"
 
     variables template_variables
 
     owner node.users.deployer.user
     group node.users.deployer.user
-  end
-
-  postgresql_connection_info = {
-    host: node.postgresql.config.listen_addresses,
-    port: node.postgresql.config.port,
-    username: 'postgres',
-    password: node.postgresql.password.postgres
-  }
-
-  postgresql_database(node.rails.application.db.name) do
-    connection postgresql_connection_info
-    action :create
-  end
-
-  postgresql_database_user(node.rails.application.db.username) do
-    connection postgresql_connection_info
-    password node.rails.application.db.password
-    action :create
-  end
-
-  postgresql_database_user(node.rails.application.db.username) do
-    connection postgresql_connection_info
-    database_name node.rails.application.db.name
-    privileges [:all]
-    action :grant
   end
 
 else
