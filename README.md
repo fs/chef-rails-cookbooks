@@ -7,6 +7,7 @@
 * [vim](http://community.opscode.com/cookbooks/vim)
 * [git](http://community.opscode.com/cookbooks/git)
 * [htop](http://community.opscode.com/cookbooks/htop)
+* [postfix](http://community.opscode.com/cookbooks/postfix)
 
 
 ## Deployer
