@@ -71,7 +71,6 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 ### Recipe
 
 * Installs [nginx](https://github.com/jsierles/chef_cookbooks/tree/master/nginx)
-* Installs `node.rails.application.unicorn.version`
 
 
 ## Rails application
