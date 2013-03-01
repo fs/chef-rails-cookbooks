@@ -41,6 +41,8 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * `node.rails.application.db.username`: `node.rails.application.name`
 * `node.rails.application.db.password`: 'change-me'
 
+### Recipe
+
 * Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) client and server.
 * Creates database `node.rails.application.db.name`
 * Creates `node.rails.application.db.username` with `node.rails.application.db.password`
