@@ -35,7 +35,16 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 
 ## Postgres
 
+### Attributes
+
+* `node.rails.application.db.name`: `node.rails.application.name`
+* `node.rails.application.db.username`: `node.rails.application.name`
+* `node.rails.application.db.password`: 'change-me'
+
 * Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) client and server.
+* Creates database `node.rails.application.db.name`
+* Creates `node.rails.application.db.username` with `node.rails.application.db.password`
+* Grants full access on `node.rails.application.db.name` to `node.rails.application.db.username` 
 
 
 ## Ruby
@@ -75,9 +84,6 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * `node.rails.application.unicorn.workers`: 2
 * `node.rails.application.unicorn.timeout`: 60
 * `node.rails.application.db.type`: postgres
-* `node.rails.application.db.name`: `node.rails.application.name`
-* `node.rails.application.db.username`: `node.rails.application.name`
-* `node.rails.application.db.password`: 'change-me'
 
 ### Recipe
 
@@ -91,9 +97,6 @@ in the `deployer_authorized_keys` data bag, one json file per user:
   * configuration at `/var/www/#{node.rails.application.name}/shared/config/unicorn.rb`
   * init script at `/etc/init.d/unicorn_#{node.rails.application.name}`
 * Installs `node.rails.application.packages` packadges
-* Creates db:
-  * database `node.rails.application.db.name` name
-  * grants access to db to `node.rails.application.db.username` with `node.rails.application.db.password`
 * Creates `/var/www/#{node.rails.application.name}/shared/config/database.yml`
 
 # Develop
