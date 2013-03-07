@@ -1,3 +1,8 @@
+# Host system requirements
+
+* Testtd on Ubuntu 12.04 LTS 64bit
+* You should have root acess
+
 # What's included
 
 ## Base
@@ -46,7 +51,7 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) client and server.
 * Creates database `node.rails.application.db.name`
 * Creates `node.rails.application.db.username` with `node.rails.application.db.password`
-* Grants full access on `node.rails.application.db.name` to `node.rails.application.db.username` 
+* Grants full access on `node.rails.application.db.name` to `node.rails.application.db.username`
 
 
 ## Ruby
