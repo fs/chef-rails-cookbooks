@@ -1,6 +1,6 @@
 # Host system requirements
 
-* Testtd on Ubuntu 12.04 LTS 64bit
+* Tested on Ubuntu 12.04 LTS 64bit
 * You should have root acess
 
 # What's included
