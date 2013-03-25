@@ -1,3 +1,4 @@
+default.rails.application.name = nil
 default.rails.application.root_prefix = '/var/www'
 default.rails.application.domain = 'example.com'
 default.rails.application.environment = 'production'
