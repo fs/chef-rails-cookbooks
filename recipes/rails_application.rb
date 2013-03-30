@@ -49,9 +49,11 @@ if application_name
     unicorn_timeout: node.rails.application.unicorn.timeout,
     unicorn_user: node.users.deployer.user,
     database_yml_config: database_yml_config,
+    database_host: node.rails.application.db.host,
     database_name: node.rails.application.db.name,
     database_username: node.rails.application.db.username,
     database_password: node.rails.application.db.password,
+
   }
 
   template "/etc/nginx/sites-include/#{application_name}.conf" do

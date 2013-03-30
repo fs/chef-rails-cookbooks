@@ -1,8 +1,7 @@
 <%= @application_environment %>:
-  adapter: postgresql
+  adapter: mysql2
   encoding: utf8
   host: <%= @database_host %>
   database: <%= @database_name %>
-  pool: 5
   username: <%= @database_username %>
   password: <%= @database_password %>
