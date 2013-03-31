@@ -1,6 +1,9 @@
 # Allow run sudo commpands without password
 default.authorization.sudo.passwordless = true
 
+# Allow users within admin group use sudo
+default.authorization.sudo.groups = ['admin']
+
 # All by default ssh connection
 default.firewall.rules = [
   'ssh' => {}
