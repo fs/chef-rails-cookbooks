@@ -12,10 +12,11 @@
 * [vim](http://community.opscode.com/cookbooks/vim)
 * [git](http://community.opscode.com/cookbooks/git)
 * [postfix](http://community.opscode.com/cookbooks/postfix)
+* [mongodb](http://community.opscode.com/cookbooks/mongodb)
+* [redis](http://community.opscode.com/cookbooks/redis)
 
 ### Attributes
 * `base.packages`: `['wget', 'curl', 'htop']` -- these packages will get automatically installed to the host
-
 
 ## Deployer
 
