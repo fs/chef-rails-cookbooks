@@ -13,7 +13,8 @@
 * [git](http://community.opscode.com/cookbooks/git)
 * [htop](http://community.opscode.com/cookbooks/htop)
 * [postfix](http://community.opscode.com/cookbooks/postfix)
-
+* [mongodb](http://community.opscode.com/cookbooks/mongodb)
+* [redis](http://community.opscode.com/cookbooks/redis)
 
 ## Deployer
 
