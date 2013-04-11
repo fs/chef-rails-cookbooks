@@ -34,3 +34,8 @@ mongodb_instance "mongodb" do
   dbpath       node['mongodb']['dbpath']
   enable_rest  node['mongodb']['enable_rest']
 end
+
+%w(/etc/default/mongodb /etc/init.d/mongodb).each do |resource|
+  resource = (resources("template[#{resource}]") rescue nil)
+  resource.cookbook 'mongodb' if resource
+end
