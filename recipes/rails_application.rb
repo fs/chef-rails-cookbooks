@@ -1,3 +1,5 @@
+include_recipe "flatstack::rails"
+
 application_name = node.rails.application.name
 
 directory node.rails.application.root_prefix
