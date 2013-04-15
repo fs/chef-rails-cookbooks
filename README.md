@@ -14,7 +14,7 @@
 * [postfix](http://community.opscode.com/cookbooks/postfix)
 
 ### Attributes
-* `base.packages`: ['wget', 'curl', 'htop'] -- these packages will get automatically installed to the host
+* `base.packages`: `['wget', 'curl', 'htop']` -- these packages will get automatically installed to the host
 
 
 ## Deployer
