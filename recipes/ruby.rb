@@ -11,7 +11,7 @@ rbenv_gem 'bundler' do
   version node.ruby.bundler_version
 end
 
-directory "/tmp/chef-solo/ruby-build" do
+directory '/tmp/chef-solo/ruby-build' do
   action :delete
   recursive true
 end
