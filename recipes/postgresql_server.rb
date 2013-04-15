@@ -1,3 +1,5 @@
+include_recipe 'postgresql::client'
+include_recipe 'postgresql::ruby'
 include_recipe 'postgresql::server'
 
 postgresql_connection_info = {
