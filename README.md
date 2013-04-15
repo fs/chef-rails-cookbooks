@@ -1,7 +1,7 @@
 # Host system requirements
 
 * Tested on Ubuntu 12.04 LTS 64bit
-* You should have root acess
+* You should have root or nopasswd sudo access
 
 # What's included
 
@@ -11,8 +11,10 @@
 * [hostname](http://community.opscode.com/cookbooks/hostname)
 * [vim](http://community.opscode.com/cookbooks/vim)
 * [git](http://community.opscode.com/cookbooks/git)
-* [htop](http://community.opscode.com/cookbooks/htop)
 * [postfix](http://community.opscode.com/cookbooks/postfix)
+
+### Attributes
+* `base.packages`: `['wget', 'curl', 'htop']` -- these packages will get automatically installed to the host
 
 
 ## Deployer
@@ -37,7 +39,6 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 }
 ```
 
-
 ## Postgres
 
 ### Attributes
@@ -46,9 +47,14 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * `node.rails.application.db.username`: `node.rails.application.name`
 * `node.rails.application.db.password`: 'change-me'
 
-### Recipe
+### Recipes
 
-* Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) client and server.
+#### recipe[flatstack::postgresql]
+* Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) client
+* Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) ruby bindings
+
+#### recipe[flatstack::postgresql_server]
+* Installs [postgresql](http://community.opscode.com/cookbooks/postgresql) server.
 * Creates database `node.rails.application.db.name`
 * Creates `node.rails.application.db.username` with `node.rails.application.db.password`
 * Grants full access on `node.rails.application.db.name` to `node.rails.application.db.username`
@@ -90,6 +96,7 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * `node.rails.application.unicorn.workers`: 2
 * `node.rails.application.unicorn.timeout`: 60
 * `node.rails.application.db.type`: postgres
+* `node.rails.application.db.password`: 'change-me'
 
 ### Recipe
 
@@ -102,8 +109,28 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 * Creates `unicorn`:
   * configuration at `/var/www/#{node.rails.application.name}/shared/config/unicorn.rb`
   * init script at `/etc/init.d/unicorn_#{node.rails.application.name}`
-* Installs `node.rails.application.packages` packadges
+* Installs `node.rails.application.packages` packages
 * Creates `/var/www/#{node.rails.application.name}/shared/config/database.yml`
+
+## Logentries
+
+### Attributes
+* `logentries.account_key`: nil
+* `logentries.hostname`: node.fqdn
+* `logentries.logs`: {}
+
+### Recipe
+* Installs packages `logentries` and `logentries-daemon`
+* Registers the node in logentries
+* Follows all logs from `logentries.logs`
+
+## ElasticSearch
+
+### Attributes
+* `elasticsearch.version`: 0.20.6
+
+### Recipe
+* Downloads and installs ElasticSearch deb-package of the specified version
 
 # Develop
 
@@ -115,7 +142,6 @@ in the `deployer_authorized_keys` data bag, one json file per user:
 
 * configure iptables
 * sshd config
-* logentries https://github.com/jagregory/chef-logentries
 * setup logrotate
 * crontab https://github.com/fs/sliceconfig/blob/master/config/etc/crontab
 * motd https://github.com/fs/sliceconfig/blob/master/config/etc/motd
