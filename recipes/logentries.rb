@@ -1,4 +1,4 @@
-if node.logentries.account_key
+if node.logentries.account_key && !node.logentries.account_key.empty?
   include_recipe 'logentries'
 
   logentries do
