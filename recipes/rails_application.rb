@@ -1,4 +1,4 @@
-include_recipe "flatstack::rails"
+include_recipe 'flatstack::rails'
 
 application_name = node.rails.application.name
 
