@@ -14,7 +14,3 @@ user_account node.users.deployer.user do
 
   action :create
 end
-
-# Make sure it has sudo access
-#
-node.default.authorization.sudo.users << node.users.deployer.user
