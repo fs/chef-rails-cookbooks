@@ -9,14 +9,6 @@ when 'debian'
     key '7F0CEB10'
     action :add
   end
-
-when 'rhel','fedora'
-  yum_repository '10gen' do
-    description '10gen RPM Repository'
-    url "http://downloads-distro.mongodb.org/repo/redhat/os/#{node['kernel']['machine']  =~ /x86_64/ ? 'x86_64' : 'i686'}"
-    action :add
-  end
-
 else
     Chef::Log.warn("Adding the #{node['platform']} 10gen repository is not yet not supported by this cookbook")
 end
